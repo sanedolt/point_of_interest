@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.sql.DataSource;
 
@@ -15,6 +16,22 @@ import javax.sql.DataSource;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private DataSource dataSource;
+
+    public class noEncodeAtAll implements PasswordEncoder {
+        @Override
+        public String encode(CharSequence charSequence) {
+            return charSequence.toString();
+        }
+        @Override
+        public boolean matches(CharSequence charSequence, String s) {
+            return charSequence.toString().equals(s);
+        }
+    }
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return new noEncodeAtAll();
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -31,7 +48,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication().dataSource(dataSource)
-                .usersByUsernameQuery("SELECT username, password FROM user WHERE username = ?");
+                .passwordEncoder(passwordEncoder())
+                .usersByUsernameQuery("SELECT username, password, enabled FROM user WHERE username = ?")
+                .authoritiesByUsernameQuery("SELECT username, 'USER' from user where username = ?");
     }
 
     @Override

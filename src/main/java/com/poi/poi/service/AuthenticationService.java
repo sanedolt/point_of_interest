@@ -27,11 +27,11 @@ public class AuthenticationService {
         try {
             auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
         } catch (AuthenticationException exception) {
-            throw new UserNotExistException("User Doesn't Exist");
+            throw new UserNotExistException("User Doesn't Exist 1");
         }
 
         if (auth == null || !auth.isAuthenticated()) {
-            throw new UserNotExistException("User Doesn't Exist");
+            throw new UserNotExistException("User Doesn't Exist 2");
         }
         return new Token(jwtUtil.generateToken(user.getUsername()));
     }
