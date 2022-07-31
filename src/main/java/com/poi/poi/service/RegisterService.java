@@ -19,6 +19,7 @@ public class RegisterService {
         if (userRepository.existsById(user.getUsername())) {
             throw new UserAlreadyExistException("Username already exists");
         }
+        user.setEnabled(true);
         userRepository.save(user);
     }
 

@@ -19,13 +19,24 @@ public class User implements Serializable {
     private String username;
     @JsonIgnore
     private String password;
+    @JsonIgnore
+    private boolean enabled;
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
 
     public String getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
+    public User setUsername(String username) {
         this.username = username;
+        return this;
     }
 
     public String getPassword() {
@@ -41,6 +52,7 @@ public class User implements Serializable {
     private User(Builder builder) {
         this.username = builder.username;
         this.password = builder.password;
+        this.enabled = builder.enabled;
     }
 
     public static class Builder {
@@ -50,6 +62,9 @@ public class User implements Serializable {
         @JsonProperty("password")
         private String password;
 
+        @JsonProperty("enabled")
+        private boolean enabled;
+
 
         public Builder setUsername(String username) {
             this.username = username;
@@ -58,6 +73,11 @@ public class User implements Serializable {
 
         public Builder setPassword(String password) {
             this.password = password;
+            return this;
+        }
+
+        public Builder setEnabled(boolean enabled) {
+            this.enabled = enabled;
             return this;
         }
 
