@@ -4,6 +4,7 @@ import com.poi.poi.model.Poi;
 import com.poi.poi.service.PoiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
 
@@ -17,8 +18,17 @@ public class PoiController {
     }
 
     @PostMapping("/poi")
-    public void addPoi(@RequestBody Poi poi) {
-        poiService.add(poi);
+    public void addStay(
+            @RequestParam("name") String name,
+            @RequestParam("address") String address,
+            @RequestParam("description") String description,
+            @RequestParam("images") MultipartFile[] images) {
+
+        Poi poi = new Poi.Builder().setName(name)
+                .setAddress(address)
+                .setDescription(description)
+                .build();
+        poiService.add(poi, images);
     }
 
     @GetMapping(value = "/poi/id")
