@@ -1,5 +1,6 @@
 package com.poi.poi.controller;
 
+import com.poi.poi.exception.GCSUploadException;
 import com.poi.poi.exception.PoiNotExistException;
 import com.poi.poi.exception.UserAlreadyExistException;
 import com.poi.poi.exception.UserNotExistException;
@@ -26,4 +27,8 @@ public class CustomExceptionHandler {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 
+    @ExceptionHandler(GCSUploadException.class)
+    public final ResponseEntity<String> handleGCSUploadExceptions(Exception ex, WebRequest request) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }
