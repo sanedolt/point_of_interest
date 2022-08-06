@@ -18,7 +18,7 @@ public class PoiController {
     }
 
     @PostMapping("/poi")
-    public void addStay(
+     public void addStay(
             @RequestParam("id") Long id,
             @RequestParam("name") String name,
             @RequestParam("city") String city,
