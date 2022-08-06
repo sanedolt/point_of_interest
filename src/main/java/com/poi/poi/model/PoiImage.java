@@ -13,7 +13,7 @@ public class PoiImage implements Serializable {
     private String url;
 
     @ManyToOne
-    @JoinColumn(name = "stay_id")
+    @JoinColumn(name = "poi_id")
     @JsonIgnore
     private Poi poi;
 

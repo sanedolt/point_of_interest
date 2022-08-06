@@ -4,10 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table (name = "user")
@@ -22,6 +21,9 @@ public class User implements Serializable {
     @JsonIgnore
     private boolean enabled;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+    private List<Trip> trips;
+
     public boolean isEnabled() {
         return enabled;
     }
@@ -34,6 +36,7 @@ public class User implements Serializable {
         return username;
     }
 
+
     public User setUsername(String username) {
         this.username = username;
         return this;
@@ -45,6 +48,15 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<Trip> getTrips() {
+        return trips;
+    }
+
+    public User setTrips(List<Trip> trips){
+        this.trips = trips;
+        return this;
     }
 
     public User() {}

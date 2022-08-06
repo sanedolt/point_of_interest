@@ -1,5 +1,6 @@
 package com.poi.poi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import javax.persistence.*;
@@ -23,6 +24,10 @@ public class Poi implements Serializable{
     private List<PoiImage> images;
     private Double latitude;
     private Double longitude;
+
+//    @JsonIgnore
+//    @ManyToMany(mappedBy = "poiSet")
+//    private Set<Trip> trips= new HashSet<>();
 
     public Long getId() {
         return id;
