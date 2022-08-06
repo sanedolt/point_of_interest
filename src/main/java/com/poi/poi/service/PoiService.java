@@ -38,10 +38,22 @@ public class PoiService {
         poiRepository.save(poi);
     }
 
+    public List<Poi> findByNameContaining(String name){
+        return poiRepository.findByNameContaining(name);
+    }
+
+    public List<Poi> findAll(){
+        return poiRepository.findAll();
+    }
+
+    public List<Poi> findTop6ByTimeTaken(){
+        return poiRepository.findTop6ByOrderByTimeTaken();
+    }
+
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public void delete(Long id) throws PoiNotExistException {
         Optional<Poi> poi = poiRepository.findById(id);
-        if (poi == null) {
+        if (!poi.isPresent()) {
             throw new PoiNotExistException("Point of intererst doesn't exist");
         }
         poiRepository.deleteById(id);

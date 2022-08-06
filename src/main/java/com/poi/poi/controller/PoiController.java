@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
+import java.util.*;
 
 @RestController
 public class PoiController {
@@ -18,7 +19,7 @@ public class PoiController {
     }
 
     @PostMapping("/poi")
-    public void addStay(
+     public void addStay(
             @RequestParam("id") Long id,
             @RequestParam("name") String name,
             @RequestParam("city") String city,
@@ -46,9 +47,25 @@ public class PoiController {
         return poiService.findById(stayId);
     }
 
+    @GetMapping(value = "/poi/search")
+    public List<Poi> getPoi(@RequestParam(name = "search_box") String name) {
+        return poiService.findByNameContaining(name);
+    }
+
+    @GetMapping(value = "/poi/all")
+    public List<Poi> getAllPoi() {
+        return poiService.findAll();
+    }
+
+    @GetMapping(value = "/poi/top6")
+    public List<Poi> getTop6Poi() {
+        return poiService.findTop6ByTimeTaken();
+    }
+
+
     @DeleteMapping("/poi")
-    public void deletePoi(@RequestParam(name = "poi_id") Long stayId) {
-        poiService.delete(stayId);
+    public void deletePoi(@RequestParam(name = "poi_id") Long poiId) {
+        poiService.delete(poiId);
     }
 }
 
