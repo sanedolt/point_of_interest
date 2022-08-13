@@ -1,5 +1,6 @@
 package com.poi.poi.controller;
 
+import com.poi.poi.model.Poi;
 import com.poi.poi.model.Trip;
 import com.poi.poi.model.User;
 import com.poi.poi.service.TripService;
@@ -44,5 +45,28 @@ public class TripController {
             @RequestParam(name = "trip_id") Long tripId,
             Principal principal) {
         tripService.deleteTrip(tripId, principal.getName());
+    }
+
+    @PostMapping("/trip/addPoiToTrip")
+    public void addPoiToTrip(
+            @RequestParam("poi_id") Long poiId,
+            @RequestParam("trip_id") Long tripId,
+            Principal principal){
+        tripService.addPoiToTrip(poiId, tripId, principal.getName());
+    }
+
+    @GetMapping("/trip/getAllPoiFromTrip")
+    public List<Poi> getAllPoiToTrip(
+            @RequestParam("trip_id") Long tripId,
+            Principal principal){
+        return tripService.getAllPoiFromTrip(tripId, principal.getName());
+    }
+
+    @DeleteMapping("/trip/deletePoiFromTrip")
+    public void deletePoiFromTrip(
+            @RequestParam(name = "trip_id") Long tripId,
+            @RequestParam("poi_id") Long poiId,
+            Principal principal) {
+        tripService.deletePoiFromTrip(poiId, tripId, principal.getName());
     }
 }

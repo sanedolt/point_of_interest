@@ -14,6 +14,11 @@ public class CustomExceptionHandler {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(PoiAlreadyExistInTripException.class)
+    public final ResponseEntity<String> handlePoiAlreadyExistInTripException(Exception ex, WebRequest request) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
+    }
+
     @ExceptionHandler(TripNotExistException.class)
     public final ResponseEntity<String> handleTripNotExistExceptions(Exception ex, WebRequest request) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
