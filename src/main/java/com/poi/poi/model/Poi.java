@@ -25,9 +25,23 @@ public class Poi implements Serializable{
     private Double latitude;
     private Double longitude;
 
-//    @JsonIgnore
-//    @ManyToMany(mappedBy = "poiSet")
-//    private Set<Trip> trips= new HashSet<>();
+    @JsonIgnore
+    @ManyToMany(mappedBy = "poiSet")
+    private Set<Trip> trips= new HashSet<>();
+
+    public Set<Trip> getTrips() {
+        return trips;
+    }
+
+    public void setTrips(Set<Trip> trips) {
+        this.trips = trips;
+    }
+
+    @Override
+    public String toString(){
+        return String.format("%d", id);
+    }
+
 
     public Long getId() {
         return id;

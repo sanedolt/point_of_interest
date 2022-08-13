@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.*;
 
 @Entity
 @Table(name = "trip")
@@ -21,9 +22,20 @@ public class Trip implements Serializable {
     private User user;
     private String name;
 
-//    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//    @JoinTable(name = "trip_records", joinColumns = { @JoinColumn(name = "tripId")}, inverseJoinColumns = {@JoinColumn(name = "poi_id")})
-//    Set<Poi> poiSet = new HashSet<>();
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "trip_records", joinColumns = { @JoinColumn(name = "tripId")}, inverseJoinColumns = {@JoinColumn(name = "poi_id")})
+    Set<Poi> poiSet = new HashSet<>();
+    public Set<Poi> getPoiSet() {
+        return poiSet;
+    }
+
+    public void setPoiSet(Set<Poi> poiSet) {
+        this.poiSet = poiSet;
+    }
+
+//    public boolean addPoiToTrip(Poi poi){
+//        return poiSet.add(poi);
+//    }
 
     public Long getId() {
         return tripId;
