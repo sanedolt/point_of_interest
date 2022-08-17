@@ -42,6 +42,14 @@ public class PoiController {
         poiService.add(poi, images);
     }
 
+    @PostMapping("/poi/addImage")
+    public void addStay(
+            @RequestParam("id") Long id,
+            @RequestParam("images") MultipartFile[] images) {
+
+        poiService.addImage(id, images);
+    }
+
     @GetMapping(value = "/poi/id")
     public Optional<Poi> getPoi(@RequestParam(name = "poi_id") Long stayId) {
         return poiService.findById(stayId);

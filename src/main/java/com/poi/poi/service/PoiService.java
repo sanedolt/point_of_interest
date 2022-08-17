@@ -38,6 +38,22 @@ public class PoiService {
         poiRepository.save(poi);
     }
 
+    public void addImage(Long id, MultipartFile[] images) {
+        Optional<Poi> pois = poiRepository.findById(id);
+        if (!pois.isPresent()) {
+            throw new PoiNotExistException("Point of interest doesn't exist");
+        }
+        Poi poi = pois.get();
+        List<String> mediaLinks = Arrays.stream(images).parallel().map(image -> imageStorageService.save(image)).collect(Collectors.toList());
+        List<PoiImage> poiImages = new ArrayList<>();
+        for (String mediaLink : mediaLinks) {
+            poiImages.add(new PoiImage(mediaLink, poi));
+        }
+        poi.setImages(poiImages);
+
+        poiRepository.save(poi);
+    }
+
     public List<Poi> findByNameContaining(String name){
         return poiRepository.findByNameContaining(name);
     }
@@ -54,7 +70,7 @@ public class PoiService {
     public void delete(Long id) throws PoiNotExistException {
         Optional<Poi> poi = poiRepository.findById(id);
         if (!poi.isPresent()) {
-            throw new PoiNotExistException("Point of intererst doesn't exist");
+            throw new PoiNotExistException("Point of interest doesn't exist");
         }
         poiRepository.deleteById(id);
     }
